@@ -3,7 +3,7 @@ let Schema = mongoose.Schema;
 
 let articleSchema = new Schema({
   title: { type: String, required: true },
-  decription: String,
+  description: String,
   tags: [String],
   author: { type: String, required: true },
   likes: { type: Number, default: 0 }
