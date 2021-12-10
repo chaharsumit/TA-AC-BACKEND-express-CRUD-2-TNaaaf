@@ -21,5 +21,25 @@
   <a href="/articles/<%= article.id %>/likes/dec">dislike</a>
   <a href="/articles/<%= article.id %>/edit">edit article</a>
   <a href="/articles/<%= article.id %>/delete">delete article</a>
+
+  <h2>add comment</h2>
+  <form action="/articles/<%= article.id %>/comments" method="POST">
+    <input type="text" name="author" placeholder="type your name">
+    <textarea name="content" cols="30" rows="10" placeholder="type your comment"></textarea>
+    <input type="submit" value="submit">
+  </form>
+
+  <h2>comments</h2>
+  <% article.comments.forEach(comment => { %>
+    <div>
+      <h3><%= comment.content %></h3>
+      <p>likes : <%= comment.likes %></p>
+      <p>likes : <%= comment.author %></p>
+      <a href="/articles/comments/<%= comment.id %>/like">like comment</a>
+      <a href="/articles/comments/<%= comment.id %>/dislike">dislike comment</a>
+      <a href="/articles/comments/<%= comment.id %>/edit">edit comment</a>
+      <a href="/articles/comments/<%= comment.id %>/delete">delete comment</a>
+    </div>
+  <% }) %>
 </body>
 </html>

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Article = require('../models/Article');
+var Comment = require('../models/comments');
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
@@ -28,12 +29,12 @@ router.post('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   let id = req.params.id;
-  Article.findById(id, (err, article) => {
+  Article.findById(id).populate('comments').exec((err, article) => {
     if(err){
       return next(err);
     }
     res.render('articlesInfo', { article: article });
-  })
+  });
 });
 
 router.get('/:id/delete', (req, res) => {
@@ -86,5 +87,21 @@ router.get('/:id/likes/dec', (req, res) => {
     res.redirect('/articles/' + id);
   })
 })
+
+router.post('/:id/comments', (req, res, next) => {
+  let id = req.params.id;
+  req.body.articleId = id;
+  Comment.create(req.body, (err, createdComment) => {
+    if(err){
+      return next(err);
+    }
+    Article.findByIdAndUpdate(id, { $push: { comments: createdComment._id }}, (err, updatedBook) => {
+      if(err){
+        return next(err);
+      }
+      res.redirect('/articles/' + id);
+    })
+  });
+});
 
 module.exports = router;
