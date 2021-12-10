@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var articleRouter = require('./routes/articles');
+var commentRouter = require('./routes/comment');
 
 mongoose.connect('mongodb://localhost/blog', (err) => {
   console.log(err ? err : "Database is connected");
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/articles', articleRouter);
+app.use('/articles/comments', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
