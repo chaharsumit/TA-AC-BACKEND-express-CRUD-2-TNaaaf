@@ -10,5 +10,12 @@
   <h1>Welcome to books page</h1>
   <a href="/books/new">click to create a new book</a>
   <h2>Books list below</h2>
+  <% books.forEach(book => { %>
+    <div>
+      <a href="/books/<%= book.id %>">Book Name : <%= book.title %></a>
+      <p>Publication : <%= book.publication %></p>
+      <hr>
+    </div>
+  <% }) %>
 </body>
 </html>
