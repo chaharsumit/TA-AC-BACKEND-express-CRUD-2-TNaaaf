@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Welcome to books page</h1>
+  <a href="/books/new">click to create a new book</a>
+  <h2>CATEGORIES</h2>
+  <% fetchedCategories.forEach(cat => { %>
+    <a href="/books/categories/<%= cat.id %>"><%= cat.categoryName %></a>
+  <% }) %>
+  <h2>AUTHORS</h2>
+  <% fetchedAuthors.forEach(author => { %>
+    <a href="/books/authors/<%= author.id %>"><%= author.name %></a>
+  <% }) %>
+  <h2>Books list below</h2>
+  <% books.forEach(book => { %>
+    <div>
+      <a href="/books/<%= book.id %>">Book Name : <%= book.title %></a>
+      <p>Publication : <%= book.publication %></p>
+      <hr>
+    </div>
+  <% }) %>
+</body>
+</html>
