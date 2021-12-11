@@ -6,11 +6,25 @@ let Category = require('../models/category');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('books');
+  Book.find({}, (err, books) => {
+    if(err){
+      return next(err);
+    } 
+    res.render('books' , { books: books });
+  })
 })
 
 router.get('/new', (req, res) => {
   res.render('createBook');
+})
+
+router.get('/:id', (req, res) => {
+  Book.findById(req.params.id).populate('categoryId authorId').exec((err, book) => {
+    if(err){
+      return next(err);
+    }
+    res.render('booksDetails', { book: book });
+  })
 })
 
 router.post('/', (req,res,next) => {
@@ -44,7 +58,7 @@ router.post('/', (req,res,next) => {
             if(err){
               return next(err);
             }
-            res.redirect('/');
+            res.redirect('/books');
           });
         });
       }else{
@@ -57,7 +71,7 @@ router.post('/', (req,res,next) => {
             if(err){
               return next(err);
             }
-            res.redirect('/');
+            res.redirect('/books');
           });
         })
       }
