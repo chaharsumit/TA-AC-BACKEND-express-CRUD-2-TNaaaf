@@ -9,6 +9,14 @@
 <body>
   <h1>Welcome to books page</h1>
   <a href="/books/new">click to create a new book</a>
+  <h2>CATEGORIES</h2>
+  <% fetchedCategories.forEach(cat => { %>
+    <a href="/books/categories/<%= cat.id %>"><%= cat.categoryName %></a>
+  <% }) %>
+  <h2>AUTHORS</h2>
+  <% fetchedAuthors.forEach(author => { %>
+    <a href="/books/authors/<%= author.id %>"><%= author.name %></a>
+  <% }) %>
   <h2>Books list below</h2>
   <% books.forEach(book => { %>
     <div>

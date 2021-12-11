@@ -10,8 +10,15 @@ router.get('/', (req, res) => {
     if(err){
       return next(err);
     } 
-    res.render('books' , { books: books });
-  })
+    Category.find({}, (err, fetchedCategories) => {
+      if(err){
+        return next(err);
+      }
+      Author.find({}, (err, fetchedAuthors) => {
+        res.render('books' , { books: books, fetchedCategories: fetchedCategories, fetchedAuthors: fetchedAuthors });
+      })
+    })
+  });
 })
 
 router.get('/new', (req, res) => {
@@ -24,6 +31,24 @@ router.get('/:id', (req, res) => {
       return next(err);
     }
     res.render('booksDetails', { book: book });
+  })
+})
+
+router.get('/categories/:id', (req, res) => {
+  Category.findById(req.params.id).populate('bookId').exec((err, result) => {
+    if(err){
+      return next(err);
+    }
+    res.render('categories', { result: result });
+  })
+})
+
+router.get('/authors/:id', (req, res) => {
+  Author.findById(req.params.id).populate('bookId').exec((err, result) => {
+    if(err){
+      return next(err);
+    }
+    res.render('authors', { result: result });
   })
 })
 
