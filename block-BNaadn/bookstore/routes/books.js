@@ -20,6 +20,19 @@ router.post('/', (req,res,next) => {
     }
     let bookId = newBook.id;
     req.body.bookId = bookId;
+    req.body.category = req.body.category.trim().split(' ');
+    for(let i = 0 ; i < req.body.category.length ; i++){
+      Category.findOneAndUpdate({categoryName: req.body.category[i]}, {$push: {bookId: req.body.bookId}}, (err, updatedCategory) => {
+        if(err){
+          return next(err);
+        }
+        Book.findByIdAndUpdate(bookId, {$push: {categoryId: updatedCategory.id}}, (err, updatedBook) => {
+          if(err){
+            return next(err);
+          }
+        })
+      });
+    }
     Author.findOne({ name: req.body.name }, (err, author) => {
       if(author){
         Author.findOneAndUpdate({ name: req.body.name }, {$push: {bookId: req.body.bookId}}, (err, author) => {
@@ -27,7 +40,7 @@ router.post('/', (req,res,next) => {
             return next(err);
           }
           req.body.authorId = author.id;
-          Book.findByIdAndUpdate(bookId, req.body, (err, newBody) => {
+          Book.findByIdAndUpdate(bookId, req.body, (err, newBook) => {
             if(err){
               return next(err);
             }
@@ -40,7 +53,7 @@ router.post('/', (req,res,next) => {
             return next(err);
           }
           req.body.authorId = newAuthor.id;
-          Book.findByIdAndUpdate(bookId, req.body, (err, newBody) => {
+          Book.findByIdAndUpdate(bookId, req.body, (err, newBook) => {
             if(err){
               return next(err);
             }

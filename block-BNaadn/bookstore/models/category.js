@@ -13,7 +13,7 @@ let Category = mongoose.model("Category", categorySchema);
 
 Category.countDocuments({ bookId: {$exists: true} }, (err, count) => {
   if(count === 0){
-    Category.create({name: "Fiction"}, {name: "Adventure"}, {name: "Motivation"}, {name: "Technology"});
+    Category.create({categoryName: "Fiction"}, {categoryName: "Adventure"}, {categoryName: "Motivation"}, {categoryName: "Technology"});
   }
 })
 
